@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Rail Boss</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #1a1a1a;
+      }
+      #gameCanvas {
+        display: block;
+      }
+      .control-panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background: #1a1a1a;
+        color: #fff;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+      .stat-item {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas" width="1200" height="800"></canvas>
+    <div class="control-panel">
+      <h1>Rail Boss</h1>
+      <div class="stat-item">Balance: $<span id="balance">10000</span></div>
+      <div class="stat-item">
+        Next Station: $<span id="nextStation">5000</span>
+      </div>
+      <div class="stat-item">Stations: <span id="stationCount">0</span></div>
+      <div class="stat-item">Trains: <span id="trainCount">0</span></div>
+      <div class="stat-item">Phase: <span id="phase">start</span></div>
+    </div>
+
+    <script type="module">
+      // Import our game modules
+      import { Game } from "./main.js";
+      import {
+        updateBalance,
+        updatePhase,
+        updateStationCount,
+        updateTrainCount,
+      } from "./ui.js";
+
+      // Create game instance
+      const game = new Game();
+
+      // Get DOM elements
+      const canvas = document.getElementById("gameCanvas");
+      const balanceEl = document.getElementById("balance");
+      const nextStationEl = document.getElementById("nextStation");
+      const stationCountEl = document.getElementById("stationCount");
+      const trainCountEl = document.getElementById("trainCount");
+      const phaseEl = document.getElementById("phase");
+
+      // Update UI elements
+      function updateUI() {
+        const state = game.gameStateManager.getState();
+        updateBalance(state.account.balance);
+        updateStationCount(state.stations.length);
+        updateTrainCount(state.trains.length);
+        updatePhase(state.phase.currentPhase);
+      }
+
+      // Start the game
+      game.start();
+
+      // Set up a simple update loop
+      function gameLoop() {
+        updateUI();
+        requestAnimationFrame(gameLoop);
+      }
+      gameLoop();
+
+      // Expose game for debugging
+      window.game = game;
+    </script>
+  </body>
+</html>

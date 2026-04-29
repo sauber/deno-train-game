@@ -1,11 +1,11 @@
-import { assertEquals } from "https://deno.land/std@0.224.0/testing/asserts.ts";
+import { assertEquals } from "@std/assert";
 import { StationManager } from "./stations.ts";
 import { Passenger } from "./passengers.ts";
 
 Deno.test("StationManager - initial stations", () => {
   const manager = new StationManager();
   const stations = manager.getStations();
-  assertEquals(stations.length, 5);
+  assertEquals(stations.length, 4);
   assertEquals(stations[0].name, "København");
 });
 

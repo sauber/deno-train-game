@@ -44,13 +44,13 @@
 
     <script type="module">
       // Import our game modules
-      import { Game } from "./main.js";
+      import { Game } from "./src/main.ts";
       import {
         updateBalance,
         updatePhase,
         updateStationCount,
         updateTrainCount,
-      } from "./ui.js";
+      } from "./src/ui.ts";
 
       // Create game instance
       const game = new Game();
@@ -65,7 +65,7 @@
 
       // Update UI elements
       function updateUI() {
-        const state = game.gameStateManager.getState();
+        const state = game.getState();
         updateBalance(state.account.balance);
         updateStationCount(state.stations.length);
         updateTrainCount(state.trains.length);

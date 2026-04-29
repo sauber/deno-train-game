@@ -22,7 +22,7 @@ export class StationManager {
       "Roskilde",
     ];
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
       const city = danishCities[i];
       const station: Station = {
         id: `station-${i}`,

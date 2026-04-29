@@ -22,7 +22,7 @@ export class GameStateManager {
       trains: [],
       tracks: [],
       passengers: [],
-      phase: { currentPhase: "start", unlockedStations: 5 },
+      phase: { currentPhase: "start", unlockedStations: 4 },
       gameOver: false,
       endgameActive: false,
       endgameTimer: 0,

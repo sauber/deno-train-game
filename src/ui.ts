@@ -1,24 +1,40 @@
-// UI rendering for the game (simplified for deno)
+// UI rendering for the game (browser-side)
 
 import { GameState } from "./types.ts";
 
+// Export individual update functions for use in index.html
+export function updateStationCount(count: number): void {
+  const el = document.getElementById("stationCount");
+  if (el) el.innerText = count.toString();
+}
+
+export function updateBalance(balance: number): void {
+  const el = document.getElementById("balance");
+  if (el) el.innerText = balance.toString();
+}
+
+export function updateTrainCount(count: number): void {
+  const el = document.getElementById("trainCount");
+  if (el) el.innerText = count.toString();
+}
+
+export function updatePhase(phase: string): void {
+  const el = document.getElementById("phase");
+  if (el) el.innerText = phase;
+}
+
+export function updateNextStation(threshold: number): void {
+  const el = document.getElementById("nextStation");
+  if (el) el.innerText = threshold.toString();
+}
+
+// UIRenderer class for use in main.ts
 export class UIRenderer {
-  // Simplified renderer that doesn't use DOM types directly
   render(gameState: GameState): void {
-    // In a real implementation, this would:
-    // 1. Clear canvas
-    // 2. Draw map with stations and tracks
-    // 3. Draw control panel with stats
-    // 4. Update visual elements
-
-    // For now, we'll just log the state to console
-    console.log("Rendering game state:");
-    console.log(`- Balance: $${gameState.account.balance}`);
-    console.log(`- Stations: ${gameState.stations.length}`);
-    console.log(`- Trains: ${gameState.trains.length}`);
-    console.log(`- Phase: ${gameState.phase.currentPhase}`);
-    console.log(`- Stations count: ${gameState.stations.length}`);
-
-    // In a real game, this would update the actual UI elements
+    updateBalance(gameState.account.balance);
+    updateStationCount(gameState.stations.length);
+    updateTrainCount(gameState.trains.length);
+    updatePhase(gameState.phase.currentPhase);
+    updateNextStation(gameState.account.nextStationThreshold);
   }
 }

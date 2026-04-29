@@ -1,11 +1,17 @@
 {
   "lock": false,
   "tasks": {
-    "dev": "deno run --watch --allow-net --allow-read=. src/server.ts",
-    "game": "deno run --allow-net=0.0.0.0:8000 src/server.ts"
+    "dev": "deno run --watch --allow-net --allow-read=. server.ts",
+    "game": "deno run --allow-net=0.0.0.0:8000 server.ts"
   },
   "nodeModulesDir": "auto",
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "deno.window"
+    ]
   }
 }

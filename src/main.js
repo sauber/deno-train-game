@@ -1,39 +1,22 @@
 // Main game loop
-
-import { GameStateManager } from "./game_state.ts";
-// import { AccountManager } from "./account.ts";
-import { StationManager } from "./stations.ts";
-// import { TrainManager } from "./trains.ts";
-// import { TrackManager } from "./tracks.ts";
-import { PhaseManager } from "./phases.ts";
-import { UIRenderer } from "./ui.ts";
-// import { InputHandler } from "./input.ts";
+import { GameStateManager } from "./game_state.js";
+import { AccountManager } from "./account.js";
+import { StationManager } from "./stations.js";
+import { TrainManager } from "./trains.js";
+import { TrackManager } from "./tracks.js";
+import { TicketManager } from "./tickets.js";
+import { RepairManager } from "./repair.js";
+import { PhaseManager } from "./phases.js";
+import { render } from "./ui.js";
+import { InputHandler } from "./input.js";
 
 export class Game {
-  // private accountManager: AccountManager;
-  private stationManager: StationManager;
-  // private trainManager: TrainManager;
-  // private trackManager: TrackManager;
-  private phaseManager: PhaseManager;
-  private uiRenderer: UIRenderer;
-  // private inputHandler: InputHandler;
-  private isRunning: boolean = false;
-  private lastTime: number = 0;
-
-  // Expose gameStateManager for browser usage
-  public gameStateManager: GameStateManager;
-
-  // Get the current game state
-  getState() {
-    return this.gameStateManager.getState();
-  }
-
   constructor() {
     this.gameStateManager = new GameStateManager();
-    // this.accountManager = new AccountManager();
+    this.accountManager = new AccountManager();
     this.stationManager = new StationManager();
-    // this.trainManager = new TrainManager();
-    // this.trackManager = new TrackManager();
+    this.trainManager = new TrainManager();
+    this.trackManager = new TrackManager();
 
     // Sync stations from StationManager to GameState
     const stations = this.stationManager.getStations();
@@ -42,19 +25,28 @@ export class Game {
     });
 
     this.phaseManager = new PhaseManager(this.gameStateManager.getState());
-    this.uiRenderer = new UIRenderer();
-    // this.inputHandler = new InputHandler(this.gameStateManager.getState());
+    this.inputHandler = new InputHandler(this.gameStateManager.getState());
+  }
+
+  // Expose gameStateManager for browser usage
+  getGameStateManager() {
+    return this.gameStateManager;
+  }
+
+  // Get the current game state
+  getState() {
+    return this.gameStateManager.getState();
   }
 
   // Start the game
-  start(): void {
+  start() {
     this.isRunning = true;
     this.lastTime = Date.now();
     this.gameLoop();
   }
 
   // Main game loop
-  private gameLoop(): void {
+  gameLoop() {
     if (!this.isRunning) return;
 
     const currentTime = Date.now();
@@ -74,12 +66,12 @@ export class Game {
   }
 
   // Update game logic
-  private update(deltaTime: number): void {
+  update(deltaTime) {
     // Update phase manager
     this.phaseManager.advancePhase();
 
     // Generate passengers
-    // const newPassengers = this.stationManager.generatePassengers();
+    const newPassengers = this.stationManager.generatePassengers();
     // In a real implementation, add these to the game state
 
     // Update trains (movement, boarding, alighting)
@@ -101,27 +93,27 @@ export class Game {
   }
 
   // Render the game
-  private render(): void {
+  render() {
     const gameState = this.gameStateManager.getState();
-    this.uiRenderer.render(gameState);
+    render(gameState);
   }
 
   // Handle game over
-  private gameOver(): void {
+  gameOver() {
     console.log("Game Over!");
     this.isRunning = false;
   }
 
   // Handle end game
-  private endGame(): void {
-    // const gameState = this.gameStateManager.getState();
+  endGame() {
+    const gameState = this.gameStateManager.getState();
     const finalScore = this.gameStateManager.getFinalScore();
     console.log(`Game Ended! Final Score: $${finalScore}`);
     this.isRunning = false;
   }
 
   // Stop the game
-  stop(): void {
+  stop() {
     this.isRunning = false;
   }
 }
